@@ -3,9 +3,9 @@ const app = express();
 const bodyParser = require('body-parser');
 const mongodb = require('mongodb');
 const mongoClient = mongodb.MongoClient;
-const url = "mongodb+srv://NazeeshaPattan:Nazeesha123#@cluster0.pjz0i.mongodb.net/<dbname>?retryWrites=true&w=majority";
+const url = "mongodb+srv://NazeeshaPattan:4u7ZQMboxwlQgi0s@cluster0.pjz0i.mongodb.net/mentorassignment?retryWrites=true&w=majority";
 const cors = require('cors');
-
+// "mongodb+srv://NazeeshaPattan:<password>@cluster0.pjz0i.mongodb.net/<dbname>?retryWrites=true&w=majority"
 app.options('*', cors())
 
 
@@ -31,16 +31,18 @@ app.get("/student", cors(), async function(req,res){
 
 app.post("/student",cors(), async function (req,res){
    try {
+    //    console.log(url)
     let client  = await mongoClient.connect(url);
+    // console.log(client);
     let db = client.db("mentorassignment");
-   await db.collection("students").insertOne({
+    await db.collection("students").insertOne({
     name : req.body.name,
     id : req.body.id,
     contact : req.body.contact,
     batch : req.body.batch,
     mentorAssigned : false,
     mentorName : "Not Assigned"
-});
+    });
    client.close();
    res.json({
        message : "Student Added Successfully!"
